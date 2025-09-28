@@ -13,7 +13,10 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 public class ProjectSecurityConfig {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(x->x.disable())
+		http
+		//https trafic to handel 
+		.requiresChannel(rcf->rcf.anyRequest().requiresSecure())
+		.csrf(x->x.disable())
 		.authorizeHttpRequests(x->x.requestMatchers("/account","/balance","/loans","/cards").authenticated()
 				.requestMatchers("/notices","/contact","/error","/welcome","/register").permitAll()
 				)
