@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
 import com.myapp.section1.exception.CustomBasicAuthenticationEntryPoint;
+import com.myapp.section1.exception.DeniedHandeler;
 
 @Configuration
 public class ProjectSecurityConfig {
@@ -25,6 +26,7 @@ public class ProjectSecurityConfig {
 				)
 		.formLogin(withDefaults -> {}) ; 
        http .httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); 
+       http.exceptionHandling(ehc -> ehc.accessDeniedHandler(new DeniedHandeler()));
 		return http.build();
 		
 	}
