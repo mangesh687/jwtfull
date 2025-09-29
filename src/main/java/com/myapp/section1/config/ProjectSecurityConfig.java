@@ -17,8 +17,8 @@ public class ProjectSecurityConfig {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
-		//handel timeout session 
-		.sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
+		//handel timeout session  and sessions limit 
+		.sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession").maximumSessions(1))
 		//https trafic to handel 
 	//	.requiresChannel(rcf->rcf.anyRequest().requiresSecure()) // for prod
     	.requiresChannel(rcf->rcf.anyRequest().requiresInsecure()) // for dev
