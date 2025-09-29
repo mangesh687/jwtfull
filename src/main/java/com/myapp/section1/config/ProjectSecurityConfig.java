@@ -17,12 +17,14 @@ public class ProjectSecurityConfig {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http
+		//handel timeout session 
+		.sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
 		//https trafic to handel 
 	//	.requiresChannel(rcf->rcf.anyRequest().requiresSecure()) // for prod
     	.requiresChannel(rcf->rcf.anyRequest().requiresInsecure()) // for dev
 		.csrf(x->x.disable())
 		.authorizeHttpRequests(x->x.requestMatchers("/account","/balance","/loans","/cards").authenticated()
-				.requestMatchers("/notices","/contact","/error","/welcome","/register").permitAll()
+				.requestMatchers("/notices","/contact","/error","/welcome","/register","/invalidSession").permitAll()
 				)
 		.formLogin(withDefaults -> {}) ; 
        http .httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); 
